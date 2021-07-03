@@ -7,6 +7,9 @@ import Addresses from '../Screens/User/Addresses/Addresses';
 import EnterAddress from "../Screens/Businesses/Home/EnterAddress";
 import AddAddress from '../Screens/User/Addresses/AddAddress';
 import Friends from '../Screens/User/Friends/Friends'
+import SearchFriends from '../Screens/User/Friends/SearchFriends';
+import FriendFeed from "../Screens/User/Friends/FriendFeed";
+import BusinessPage from "../Screens/Businesses/Business/BusinessPage";
 
 const Stack = createStackNavigator();
 
@@ -51,6 +54,27 @@ function MyStack() {
             <Stack.Screen 
                 name="Friends"
                 component={Friends}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen 
+                name="Search Friends"
+                component={SearchFriends}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen 
+                name="Friend Feed"
+                component={FriendFeed}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen 
+                name="Business Page"
+                component={BusinessPage}
                 options={{
                     headerShown: false
                 }}

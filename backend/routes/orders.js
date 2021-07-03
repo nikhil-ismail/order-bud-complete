@@ -33,6 +33,34 @@ router.get(`/:userId`, async (req, res) => {
     res.send(orderList);
 })
 
+router.get(`/:friendId`, async (req, res) => {
+    const orderList = await Order.find({ "user": mongoose.Types.ObjectId(req.params.friendId) })
+        .populate({
+            path: 'orderItems',
+            populate: {
+                path: 'product',
+                select: {
+                    'name': 1,
+                    'price': 1
+                }
+            }
+        })
+        .populate('user', 'name')
+        .populate('business', {
+            coverImage: 1,
+            name: 1,
+            ratings: 1,
+            reviewCount: 1
+
+        })
+
+    if (!orderList) {
+        res.status(500).json({ success: false })
+    }
+
+    res.send(orderList);
+})
+
 router.get('/business/:businessId', async (req, res) => {
     const orders = await Order.find({ "business": mongoose.Types.ObjectId(req.params.businessId) })
         .populate({
