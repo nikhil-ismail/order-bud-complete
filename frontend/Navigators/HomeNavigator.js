@@ -8,6 +8,7 @@ import LoginRegister from '../Screens/User/Account/LoginRegister';
 import SearchResults from '../Screens/Businesses/Search/SearchResults';
 import CategoryFilterResults from "../Screens/Businesses/Search/CategoryFilterResults";
 import EnterAddress from "../Screens/Businesses/Home/EnterAddress";
+import HomeAddAddress from "../Screens/Businesses/Home/HomeAddAddress";
 
 const Stack = createStackNavigator()
 
@@ -59,6 +60,13 @@ function MyStack() {
             <Stack.Screen 
                 name='Enter Address'
                 component={EnterAddress}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name='Add Address'
+                component={HomeAddAddress}
                 options={{
                     headerShown: false,
                 }}
