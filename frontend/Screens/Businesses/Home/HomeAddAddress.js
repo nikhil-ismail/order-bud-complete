@@ -49,7 +49,7 @@ const HomeAddAddress = (props) => {
             }
         })
         .catch(() => {
-            setError('Error - could not add this address!')
+            setError('Error - could not add address!')
         });
     }
 
