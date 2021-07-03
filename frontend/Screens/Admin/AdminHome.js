@@ -83,14 +83,13 @@ const AdminHome = (props) => {
                                 </View>
                             </View>
                             <View style={{ padding: 10 }}>
-                                <Metrics salesVolume={salesVolume} orderVolume={orderVolume} />
+                               <Metrics salesVolume={salesVolume} orderVolume={orderVolume} />
                                 <Actions navigation={props.navigation} business={business} />
                                 <Orders orders={orders} handleSetReloadNums={handleSetReloadNums} />
                             </View>
                         </ScrollView>
                     </View>
-                    :
-                    <View style={{ backgroundColor: "#f2f2f2", justifyContent: "center", alignItems: "center", height: height }}>
+                    : <View style={{ backgroundColor: "#f2f2f2", justifyContent: "center", alignItems: "center", height: height }}>
                         <ActivityIndicator size="large" color="green" />
                     </View>
             }
