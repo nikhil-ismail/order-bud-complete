@@ -27,7 +27,43 @@ const Friends = () => {
                 setSentRequest(result.data.userSentRequest)
                 setAlreadyFriends(result.data.userAlreadyFriends)
                 setNoInteraction(result.data.userNoInteraction)
+            } else if (name.length === 0) {
+                setReceivedRequest([])
+                setSentRequest([])
+                setAlreadyFriends([])
+                setNoInteraction([])
             }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const addFriend = async result => {
+
+        try {
+            const friendship = {
+                requester: userId,
+                recipient: result.user._id
+            }
+
+            const addFriend = await axios.post(`${baseUrl}friends/addFriend`, friendship)
+
+            setReceivedRequest([])
+            setSentRequest([])
+            setAlreadyFriends([])
+            setNoInteraction([])
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleAcceptFriendRequest = async result => {
+        try {
+            const acceptRequest = await axios.put(`${baseUrl}friends/acceptFriendRequest`, { friendId: result.friendId});
+            setReceivedRequest([])
+            setSentRequest([])
+            setAlreadyFriends([])
+            setNoInteraction([])    
         } catch (err) {
             console.log(err);
         }
@@ -49,17 +85,18 @@ const Friends = () => {
                     receivedRequest.map(result => {
                         return (
                             <View
-                                key={result._id}
+                                key={result.user._id}
                                 style={styles.resultContainer}
                             >
                                 <View style={styles.userDetails}>
-                                    <Text style={styles.userMain}>{result.name}</Text>
-                                    <Text style={styles.userSecondary}>{result.email}</Text>
+                                    <Text style={styles.userMain}>{result.user.name}</Text>
+                                    <Text style={styles.userSecondary}>{result.user.email}</Text>
                                 </View>
                                 <TouchableOpacity
                                     style={styles.addFriendButton}
+                                    onPress={() => handleAcceptFriendRequest(result)}
                                 >
-                                    <Text>Accept</Text>
+                                    <Text style={styles.addFriendButtonText}>Accept</Text>
                                 </TouchableOpacity>
                             </View>
                         )
@@ -69,18 +106,18 @@ const Friends = () => {
                     alreadyFriends.map(result => {
                         return (
                             <View
-                                key={result._id}
+                                key={result.user._id}
                                 style={styles.resultContainer}
                             >
                                 <View style={styles.userDetails}>
-                                    <Text style={styles.userMain}>{result.name}</Text>
-                                    <Text style={styles.userSecondary}>{result.email}</Text>
+                                    <Text style={styles.userMain}>{result.user.name}</Text>
+                                    <Text style={styles.userSecondary}>{result.user.email}</Text>
                                 </View>
-                                <TouchableOpacity
-                                    style={styles.addFriendButton}
+                                <View
+                                    style={styles.alreadyFriendsButton}
                                 >
-                                    <Text>Already Friends</Text>
-                                </TouchableOpacity>
+                                    <Text style={styles.alreadyFriendsButtonText}>Already Friends</Text>
+                                </View>
                             </View>
                         )
                     })
@@ -89,18 +126,18 @@ const Friends = () => {
                     sentRequest.map(result => {
                         return (
                             <View
-                                key={result._id}
+                                key={result.user._id}
                                 style={styles.resultContainer}
                             >
                                 <View style={styles.userDetails}>
-                                    <Text style={styles.userMain}>{result.name}</Text>
-                                    <Text style={styles.userSecondary}>{result.email}</Text>
+                                    <Text style={styles.userMain}>{result.user.name}</Text>
+                                    <Text style={styles.userSecondary}>{result.user.email}</Text>
                                 </View>
-                                <TouchableOpacity
-                                    style={styles.addFriendButton}
+                                <View
+                                    style={styles.pendingFriendButton}
                                 >
-                                    <Text>Pending</Text>
-                                </TouchableOpacity>
+                                    <Text style={styles.addFriendButtonText}>Sent</Text>
+                                </View>
                             </View>
                         )
                     })
@@ -109,17 +146,18 @@ const Friends = () => {
                     noInteraction.map(result => {
                         return (
                             <View
-                                key={result._id}
+                                key={result.user._id}
                                 style={styles.resultContainer}
                             >
                                 <View style={styles.userDetails}>
-                                    <Text style={styles.userMain}>{result.name}</Text>
-                                    <Text style={styles.userSecondary}>{result.email}</Text>
+                                    <Text style={styles.userMain}>{result.user.name}</Text>
+                                    <Text style={styles.userSecondary}>{result.user.email}</Text>
                                 </View>
                                 <TouchableOpacity
                                     style={styles.addFriendButton}
+                                    onPress={() => addFriend(result)}
                                 >
-                                    <Text>Add Friend</Text>
+                                    <Text style={styles.addFriendButtonText}>Add Friend</Text>
                                 </TouchableOpacity>
                             </View>
                         )
@@ -202,10 +240,37 @@ const styles = StyleSheet.create({
         marginTop: 7.5
     },
     addFriendButton: {
-        backgroundColor: "grey",
+        backgroundColor: "green",
         width: 100,
         height: 50,
-        borderRadius: 10
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    addFriendButtonText: {
+        color: "white"
+    },
+    alreadyFriendsButton: {
+        backgroundColor: "white",
+        borderColor: "green",
+        borderWidth: 2,
+        width: 100,
+        height: 50,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    alreadyFriendsButtonText: {
+        color: "green",
+        fontWeight: "bold"
+    },
+    pendingFriendButton: {
+        backgroundColor: "#52ab62",
+        width: 100,
+        height: 50,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
 
