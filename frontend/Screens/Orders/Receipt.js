@@ -40,14 +40,6 @@ const Receipt = props => {
                         return <ReceiptItem item={item} />
                     })}
                 </View>
-                <View style={styles.tipCategoryContainer}>
-                    <View style={styles.category}>
-                        <TouchableOpacity style={styles.tipIcon}>
-                            <Icon name="hand-holding-usd" type="font-awesome-5" color="black" size={27.5} />
-                        </TouchableOpacity>
-                        <Text style={styles.categoryText}>Tip: $0.00</Text>
-                    </View>
-                </View>
                 <View style={styles.priceCategoryContainer}>
                     <View style={styles.category}>
                         <TouchableOpacity style={styles.priceIcon}>
