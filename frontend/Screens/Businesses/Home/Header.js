@@ -30,7 +30,7 @@ const Header = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <TouchableOpacity style={styles.address} onPress={() => props.navigation.navigate('Enter Address')}>
+            <TouchableOpacity style={styles.address} onPress={() => props.navigation.navigate('Add Address')}>
                 <Text style={styles.addressText}>{address === undefined ? 'Enter Address' : address.mainText}</Text>
                 <Icon name="angle-down" type="font-awesome-5" color="green" size={20} />
             </TouchableOpacity>

@@ -153,6 +153,8 @@ router.put('/addAddress/:id',async (req, res)=> {
     let addressSecondaryText = req.body.addressSecondaryText;
     let addressPlaceId = req.body.addressPlaceId;
     let oldAddressPlaceId = req.body.oldAddressId;
+
+    let addressFound = false;
     
     let user = await User.findById(req.params.id);
     
@@ -162,13 +164,23 @@ router.put('/addAddress/:id',async (req, res)=> {
         }
     }
 
-    user.address.push({
-        "fullAddress": fullAddress,
-        "addressPrimaryText": addressPrimaryText,
-        "addressSecondaryText": addressSecondaryText,
-        "addressPlaceId": addressPlaceId,
-        "active": true
-    })
+    for (let i = 0; i < user.address.length; i++) {
+        if (user.address[i].addressPlaceId === addressPlaceId) {
+            user.address[i].active = true;
+            addressFound = true;
+        }
+    }
+
+    if (addressFound === false) {
+        user.address.push({
+            "fullAddress": fullAddress,
+            "addressPrimaryText": addressPrimaryText,
+            "addressSecondaryText": addressSecondaryText,
+            "addressPlaceId": addressPlaceId,
+            "active": true
+        })
+    }
+
 
     console.log('-----USER-----', user);
 

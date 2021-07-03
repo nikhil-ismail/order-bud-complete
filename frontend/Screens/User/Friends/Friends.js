@@ -15,14 +15,6 @@ const Friends = (props) => {
                     <Text style={styles.title}>Friends</Text>
                 </View>
                 <SearchBar showFilterIcon={false} placeholder="Search friends on OrderBud..." />
-                <View style={styles.categoryContainer}>
-                    <View style={styles.category}>
-                        <View style={{marginLeft: 25}}>
-                            <Icon name="user-friends" type="font-awesome-5" color="black" size={25} />
-                        </View>
-                        <Text style={[{marginLeft: 30}, styles.categoryText]}>My Friends</Text>
-                    </View>
-                </View>
                 <MyFriends />
             </ScrollView>
         </SafeAreaView>
