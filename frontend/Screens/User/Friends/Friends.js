@@ -23,15 +23,6 @@ const Friends = () => {
         try {
             if (name.length > 2) {
                 const result = await axios.get(`${baseUrl}friends/search/${userId}?searchTerm=${name}`)
-                console.log("received request")
-                console.log(result.data.userRecievedRequest)
-                console.log("sent request")
-                console.log(result.data.userSentRequest)
-                console.log("already friends")
-                console.log(result.data.userAlreadyFriends)
-                console.log("never interacted")
-                console.log(result.data.userNoInteraction)
-
                 setReceivedRequest(result.data.userRecievedRequest)
                 setSentRequest(result.data.userSentRequest)
                 setAlreadyFriends(result.data.userAlreadyFriends)
