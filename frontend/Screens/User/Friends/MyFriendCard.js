@@ -1,28 +1,60 @@
-import React, { useState } from "react";
-import { View, SafeAreaView, ScrollView, StyleSheet, Dimensions, Text, TouchableOpacity } from "react-native";
-import { Icon, BottomSheet } from 'react-native-elements';
+import React from "react";
+import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import axios from 'axios';
 
-const MyFriends = (props) => {
+import { useSelector } from 'react-redux';
+import { selectUserId } from '../../../Redux/userSlice';
+
+import baseUrl from '../../../assets/common/baseUrl';
+
+const MyFriendCard = (props) => {
+
+    const userId = useSelector(selectUserId);
+    const friend = props.friend;
+
+    console.log(friend);
+
+    const handleAcceptFriendRequest = async () => {
+        try {
+            const acceptRequest = await axios.put(`${baseUrl}friends/acceptFriendRequest`, { friendId: props.friend});    
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     return (
         <SafeAreaView>
-            <ScrollView>
-                <View style={styles.cardContainer}>
+            {
+                props.friend.status === "pending"
+                ?
+                <TouchableOpacity style={styles.cardContainer}>
                     <View style={styles.profilePicturePlaceholder} />
                     <View style={styles.nameContainer}>
-                        <Text style={styles.name}>Greg Hutner</Text>
+                        <Text style={styles.name}>{props.friend.requester.name}</Text>
                     </View>
-                    {props.added ?
-                    <TouchableOpacity style={styles.addedContainer}>
-                        <Text style={styles.addedText}>Added</Text>
+                    <TouchableOpacity
+                        style={styles.addedContainer}
+                        onPress={handleAcceptFriendRequest}
+                    >
+                        <Text style={styles.addedText}>Accept</Text>
                     </TouchableOpacity>
-                    :
-                    <TouchableOpacity style={styles.addContainer}>
-                        <Text style={styles.addText}>+ Add</Text>
-                    </TouchableOpacity>
-                    }
-                </View>
-            </ScrollView>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity style={styles.cardContainer} onPress={() => props.navigation.navigate('Friend Feed', friend)}>
+                    <View style={styles.profilePicturePlaceholder} />
+                    <View style={styles.nameContainer}>
+                        <Text style={styles.name}>
+                            {
+                                props.friend.requester._id === userId
+                                ?
+                                props.friend.recipient.name
+                                :
+                                props.friend.requester.name
+                            }
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            }
         </SafeAreaView>
     )
 }
@@ -81,4 +113,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default MyFriends;
+export default MyFriendCard;

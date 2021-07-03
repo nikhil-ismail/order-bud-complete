@@ -37,7 +37,7 @@ const Profile = (props) => {
                     <Icon name="home" type="font-awesome-5" color="black" size={30} />
                     <Text style={styles.categoryText}>Addresses</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.category} onPress={() => props.navigation.navigate('Friends')}>
+                <TouchableOpacity style={styles.category} onPress={() => props.navigation.navigate('Friends')} navigation={props.navigation}>
                     <Icon name="users" type="font-awesome-5" color="black" size={30} />
                     <Text style={styles.categoryText}>Friends</Text>
                 </TouchableOpacity>
