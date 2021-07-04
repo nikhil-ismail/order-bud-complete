@@ -1,91 +1,157 @@
-import React from 'react';
-import { StyleSheet, View, Dimensions, Image, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Image,
+  Text,
+  TouchableOpacity,
+  Button,
+} from "react-native";
 
 var { width } = Dimensions.get("window");
 
 const FriendOrderCard = (props) => {
-    const { businesses, order, ordersCount } = props;
+  const { businesses, order, ordersCount } = props;
+  const [showItems, setShowItems] = useState(false);
 
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf('T'));
-    let dateParts = date.split('-');
-    dateParts = dateParts.map(datePart => {
-        return parseInt(datePart - 1);
-    })
-    const formattedDate = `${monthNames[dateParts[1]]} ${dateParts[2]}, ${dateParts[0]}`;
+  const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf("T"));
+  let dateParts = date.split("-");
+  dateParts = dateParts.map((datePart) => {
+      return parseInt(datePart - 1);
+  });
+  const formattedDate = `${monthNames[dateParts[1]]} ${dateParts[2]}, ${dateParts[0]}`;
 
-    const menu = businesses.filter(dispense => dispense.name === order.business.name);
+  const menu = businesses.filter(
+      (dispense) => dispense.name === order.business.name
+  );
 
-    return (
-        <View style={styles.productContainer}>
-            <View style={styles.innerContainer}>
+  const handleShowItems = () => {
+    setShowItems(!showItems);
+  };
+
+  return (
+    <View style={styles.productContainer}>
+        <View style={styles.innerContainer}>
+            <View style={{flexDirection: "row"}}>
                 <Image
                     style={styles.coverImage}
                     source={{ uri: order.business.coverImage }}
                 />
-                <View style={{ width: "70%", flexDirection: "row", justifyContent: "space-between" }}>
-                    <View style={styles.contentContainer}>
-                        <Text style={styles.header}>{order.business.name.length < 15 ? order.business.name : order.business.name.substring(0, 14) + '...'}</Text>
-                        <View style={{ flexDirection: "row", width: "70%" }}>
-                            <Text style={styles.subText}>${order.totalPrice}</Text>
-                            <Text style={styles.subText}>{order.totalQuantity} {order.totalQuantity === 1 ? 'Item' : 'Items'}</Text>
-                        </View>
-                        <Text style={styles.subText}>{formattedDate}</Text>
+                <View style={styles.contentContainer}>
+                    <Text style={styles.header}>{order.business.name.length < 25 ? order.business.name : order.business.name.substring(0, 25) + '...'}</Text>
+                    <View style={{flexDirection: "row"}}>
+                        <Text style={styles.subText}>{formattedDate} • {order.totalQuantity} {order.totalQuantity === 1 ? 'Item' : 'Items'}</Text>
                     </View>
-                    <View style={styles.viewMenuContainer}>
-                        <TouchableOpacity style={styles.viewMenu} onPress={() => props.navigation.navigate('Business Page', menu[0])}>
-                            <Text style={{ fontSize: 16 }}>Menu</Text>
+                    <TouchableOpacity style={styles.viewMenuContainer} onPress={() => props.navigation.navigate("Business Page", menu[0])}>
+                        <Text style={{ color: "green", fontWeight: "bold" }}>View Menu</Text>
+                    </TouchableOpacity>
+                    <View style={styles.showItemToggleContainer}>
+                        <TouchableOpacity style={styles.showItems} onPress={handleShowItems}>
+                            <Text style={{ fontSize: 16 }}>{showItems ? "Hide Items" : "Show Items"}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
+            {showItems &&
+                order.orderItems.map((item) => {
+                    return (
+                    <View style={styles.itemContainer}>
+                        <View style={styles.quantityContainer}>
+                            <View style={styles.quantity}>
+                                <Text style={styles.quantityText}>{item.quantity}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.itemNameContainer}>
+                            <Text style={styles.cartItemText}>{item.product.name.length <  45 ? item.product.name : item.product.name.substring(0, 45) + '...'}</Text>
+                        </View>
+                    </View>
+                    );
+                })
+            }
         </View>
-    )
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    productContainer: {
-        width: '100%',
-        paddingHorizontal: 15,
-        backgroundColor: 'white'
-    },
-    innerContainer: {
-        paddingVertical: 10,
-        borderBottomWidth: 0.4,
-        borderBottomColor: "grey",
-        flexDirection: "row",
-        alignItems: 'center',
-    },
-    coverImage: {
-        height: width * 0.25,
-        width: "30%"
-    },
-    contentContainer: {
-        height: "100%",
-        paddingLeft: 15,
-    },
-    header: {
-        fontSize: 20,
-        fontWeight: "bold",
-        marginBottom: 5
-    },
-    subText: {
-        marginRight: 10,
-        color: "grey",
-        fontSize: 16
-    },
-    viewMenuContainer: {
-        justifyContent: "center"
-    },
-    viewMenu: {
-        backgroundColor: "#E8E8E8",
-        paddingHorizontal: 25,
-        paddingVertical: 10,
-        borderRadius: 10,
-        alignItems: "center",
-        justifyContent: "center"
-    }
-})
+  productContainer: {
+    width: "100%",
+    paddingHorizontal: 15,
+    backgroundColor: "white",
+  },
+  innerContainer: {
+    paddingVertical: 20,
+    borderBottomWidth: 0.4,
+    borderBottomColor: "grey",
+    flexDirection: "column",
+  },
+  coverImage: {
+    height: width * 0.3,
+    width: "30%",
+    marginBottom: 15,
+  },
+  contentContainer: {
+    height: "100%",
+    paddingLeft: 15,
+    flexDirection: "column"
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  subText: {
+    marginRight: 10,
+    marginVertical: 2.5,
+    color: "grey",
+    fontSize: 16,
+  },
+  viewMenuContainer: {
+    marginVertical: 5,
+  },
+  showItems: {
+    backgroundColor: "#E8E8E8",
+    paddingHorizontal: 25,
+    paddingVertical: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  showItemToggleContainer: {
+    marginVertical: 5,
+    width: 135
+  },
+  itemContainer: {
+    flexDirection: "row",
+  },
+  quantityContainer: {
+    paddingVertical: 10,
+  },
+  quantity: {
+    backgroundColor: "black",
+    height: 28,
+    width: 28,
+    borderRadius: 2.5,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+  },
+  quantityText: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
+  },
+  itemNameContainer: {
+    justifyContent: "center",
+    paddingVertical: 10,
+  },
+  cartItemText: {
+    fontSize: 16,
+    marginLeft: 12.5,
+  }
+});
 
 export default FriendOrderCard;

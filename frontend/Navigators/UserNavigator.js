@@ -7,7 +7,7 @@ import Addresses from '../Screens/User/Addresses/Addresses';
 import EnterAddress from "../Screens/Businesses/Home/EnterAddress";
 import AddAddress from '../Screens/User/Addresses/AddAddress';
 import Friends from '../Screens/User/Friends/Friends'
-import SearchFriends from '../Screens/User/Friends/SearchFriends';
+import AddFriends from '../Screens/User/Friends/AddFriends';
 import FriendFeed from "../Screens/User/Friends/FriendFeed";
 import BusinessPage from "../Screens/Businesses/Business/BusinessPage";
 
@@ -59,8 +59,8 @@ function MyStack() {
                 }}
             />
             <Stack.Screen 
-                name="Search Friends"
-                component={SearchFriends}
+                name="Add Friends"
+                component={AddFriends}
                 options={{
                     headerShown: false
                 }}
