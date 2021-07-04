@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput } from "react-native";
+import { Icon } from 'react-native-elements';
 
 import axios from 'axios';
 
@@ -8,7 +9,7 @@ import { selectUserId } from '../../../Redux/userSlice';
 
 import baseUrl from '../../../assets/common/baseUrl';
 
-const SearchFriends = () => {
+const AddFriends = (props) => {
     const [noInteraction, setNoInteraction] = useState([]);
     const [receivedRequest, setReceivedRequest] = useState([]);
     const [sentRequest, setSentRequest] = useState([]);
@@ -72,11 +73,14 @@ const SearchFriends = () => {
     return (
         <SafeAreaView>
             <ScrollView>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Friends</Text>
-                </View>
+            <View style={styles.header}>
+                <TouchableOpacity style={styles.iconContainer} onPress={() => props.navigation.goBack()}>
+                    <Icon name="arrow-left" type="font-awesome-5" color="black" size={26} />
+                </TouchableOpacity>
+                <Text style={styles.headerText}>Add Friends</Text>
+            </View>
                 <TextInput
-                    placeholder="Search friends on OrderBud..."
+                    placeholder="Add friends on OrderBud..."
                     style={styles.enterAddressField}
                     onChangeText={name => onFriendSearch(name)}
                 />
@@ -116,7 +120,7 @@ const SearchFriends = () => {
                                 <View
                                     style={styles.alreadyFriendsButton}
                                 >
-                                    <Text style={styles.alreadyFriendsButtonText}>Already Friends</Text>
+                                    <Text style={styles.alreadyFriendsButtonText}>Friends</Text>
                                 </View>
                             </View>
                         )
@@ -170,14 +174,19 @@ const SearchFriends = () => {
 }
 
 const styles = StyleSheet.create({
-    titleContainer: {
-        justifyContent: "center",
+    header: {
+        flexDirection: "row",
         alignItems: "center",
-        marginTop: 10,
-        marginBottom: 20
+        justifyContent: "center",
+        height: 60,
+        borderBottomWidth: 0.25
     },
-    title: {
-        fontSize: 26,
+    iconContainer: {
+        position: "absolute",
+        left: 20
+    },
+    headerText: {
+        fontSize: 20,
         fontWeight: "bold"
     },
     categoryContainer: {
@@ -263,4 +272,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SearchFriends;
+export default AddFriends;

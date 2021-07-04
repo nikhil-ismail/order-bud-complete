@@ -2,6 +2,8 @@ import React, { useState, useCallback } from "react";
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
 import axios from 'axios';
 
+import { Icon } from 'react-native-elements';
+
 import { useFocusEffect } from '@react-navigation/native'
 
 import FriendOrderCard from './FriendOrderCard';
@@ -51,8 +53,14 @@ const FriendFeed = (props) => {
 
     return (
         <SafeAreaView>
-            <ScrollView>
-                <Text>FRIEND FEED</Text>
+            <View>
+                <View style={styles.header}>
+                    <TouchableOpacity style={styles.iconContainer} onPress={() => props.navigation.goBack()}>
+                        <Icon name="arrow-left" type="font-awesome-5" color="black" size={26} />
+                    </TouchableOpacity>
+                    <Text style={styles.headerText}>{friendName}'s Orders</Text>
+                </View>
+                <ScrollView>
                 {
                     orders.length === 0 ?
                     <View style={{alignItems: "center", justifyContent: "center", marginTop: 20}}>
@@ -70,13 +78,28 @@ const FriendFeed = (props) => {
                         }
                     </View>
                 }
-            </ScrollView>
+                </ScrollView>
+            </View>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    
+    header: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        height: 60,
+        borderBottomWidth: 0.25
+    },
+    iconContainer: {
+        position: "absolute",
+        left: 20
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: "bold"
+    }
 })
 
 export default FriendFeed;

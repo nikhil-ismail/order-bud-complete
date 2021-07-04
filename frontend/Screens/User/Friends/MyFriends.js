@@ -14,12 +14,11 @@ const MyFriends = (props) => {
                 <TextInput
                     placeholder="Search friends on OrderBud..."
                     style={styles.enterAddressField}
-                    onFocus={() => props.navigation.navigate('Search Friends')}
                 />
                 <View>
-                    <Text style={styles.requestHeader}>Requests</Text>
+                    <Text style={styles.requestHeader}>{props.requestsCount} Requests</Text>
                         {
-                            requests.length > 0 &&
+                            requests.length > 0 ?
                             <View>
                                 {
                                     requests.map(request => {
@@ -32,10 +31,16 @@ const MyFriends = (props) => {
                                     })
                                 }
                             </View>
+                            :
+                            <View style={styles.cardContainer}>
+                                <View style={styles.nameContainer}>
+                                    <Text style={styles.userSecondary}>You have no friend requests at the moment</Text>
+                                </View>
+                            </View>
                         }
-                    <Text style={styles.friendHeader}>Friends</Text>
+                    <Text style={styles.friendHeader}>{props.friendsCount} Friends</Text>
                         {
-                            friends.length > 0 &&
+                            friends.length > 0 ?
                             <View>
                                 {
                                     friends.map(friend => {
@@ -48,6 +53,12 @@ const MyFriends = (props) => {
                                         )
                                     })
                                 }
+                            </View>
+                            :
+                            <View style={styles.cardContainer}>
+                                <View style={styles.nameContainer}>
+                                    <Text style={styles.userSecondary}>Send a friend request now to explore other orders!</Text>
+                                </View>
                             </View>
                         }
                 </View>
@@ -72,17 +83,17 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: "bold",
         paddingHorizontal: 15,
-        paddingVertical: 10
+        paddingVertical: 10,
+        marginTop: 10,
+        marginBottom: 5
     },
     requestHeader: {
         fontSize: 22,
         fontWeight: "bold",
         paddingHorizontal: 15,
-        paddingVertical: 10
-    },
-    requestContainer: {
-        marginVertical: 15,
-        marginLeft: 15
+        paddingVertical: 10,
+        marginTop: 10,
+        marginBottom: 5
     },
     requestText: {
         fontSize: 17,
@@ -95,6 +106,19 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 17,
         fontWeight: "bold"
+    },
+    cardContainer: {
+        flexDirection: "row",
+        backgroundColor: "white",
+        paddingVertical: 20,
+        marginVertical: 5
+    },
+    nameContainer: {
+        marginHorizontal: 18,
+    },
+    userSecondary: {
+        color: "grey",
+        fontSize: 16,
     },
 })
 

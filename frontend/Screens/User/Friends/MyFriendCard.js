@@ -28,9 +28,9 @@ const MyFriendCard = (props) => {
                 props.friend.status === "pending"
                 ?
                 <TouchableOpacity style={styles.cardContainer}>
-                    <View style={styles.profilePicturePlaceholder} />
                     <View style={styles.nameContainer}>
-                        <Text style={styles.name}>{props.friend.requester.name}</Text>
+                        <Text style={styles.userMain}>{props.friend.requester.name}</Text>
+                        <Text style={styles.userSecondary}>{props.friend.requester.email}</Text>
                     </View>
                     <TouchableOpacity
                         style={styles.addedContainer}
@@ -41,9 +41,8 @@ const MyFriendCard = (props) => {
                 </TouchableOpacity>
                 :
                 <TouchableOpacity style={styles.cardContainer} onPress={() => props.navigation.navigate('Friend Feed', friend)}>
-                    <View style={styles.profilePicturePlaceholder} />
                     <View style={styles.nameContainer}>
-                        <Text style={styles.name}>
+                        <Text style={styles.userMain}>
                             {
                                 props.friend.requester._id === userId
                                 ?
@@ -52,6 +51,20 @@ const MyFriendCard = (props) => {
                                 props.friend.requester.name
                             }
                         </Text>
+                        <Text style={styles.userSecondary}>
+                            {
+                                props.friend.requester._id === userId
+                                ?
+                                props.friend.recipient.email
+                                :
+                                props.friend.requester.email
+                            }
+                        </Text>
+                    </View>
+                    <View
+                        style={styles.addedContainer}
+                    >
+                        <Text style={styles.addedText}>Friends</Text>
                     </View>
                 </TouchableOpacity>
             }
@@ -66,50 +79,30 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         marginVertical: 2
     },
-    profilePicturePlaceholder: {
-        backgroundColor: "grey",
-        paddingHorizontal: 20,
-        paddingVertical: 20,
-        marginLeft: 20,
-        height: "100%",
-        width: "8%",
-        borderRadius: 60
-    },
     nameContainer: {
         marginHorizontal: 18,
         marginTop: 10
     },
-    name: {
-        fontSize: 16
+    userMain: {
+        fontSize: 20,
+        fontWeight: "bold"
+    },
+    userSecondary: {
+        color: "grey",
+        fontSize: 16,
+        marginTop: 7.5
     },
     addedContainer: {
-        alignItems: "flex-end",
-        marginLeft: 135,
-        marginTop: 5,
+        marginLeft: 100,
         borderRadius: 10,
         borderColor: "green",
         borderWidth: 2,
-        paddingVertical: 5,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        justifyContent: "center"
     },
     addedText: {
         fontSize: 16,
         color: "green"
-    },
-    addContainer: {
-        alignItems: "flex-end",
-        marginLeft: 138,
-        marginTop: 5,
-        borderRadius: 10,
-        borderColor: "green",
-        backgroundColor: "green",
-        borderWidth: 2,
-        paddingVertical: 5,
-        paddingHorizontal: 10
-    },
-    addText: {
-        fontSize: 16,
-        color: "white"
     }
 })
 

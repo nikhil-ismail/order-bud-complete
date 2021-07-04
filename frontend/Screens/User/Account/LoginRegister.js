@@ -45,7 +45,11 @@ const LoginRegister = (props) => {
             .then(response => {
                 if (response.data.auth) {
                     dispatch(setUser(response.data));
-                    dispatch(setAddress(response.data.user.address[response.data.user.address.length - 1]));
+                    for (let i = 0; i < response.data.user.address.length; i++) {
+                        if (response.data.user.address[i].active === true) {
+                            dispatch(setAddress(response.data.user.address[i]));
+                        }
+                    }
                     if (props.route.params !== undefined) {
                         props.navigation.goBack();
                     }
