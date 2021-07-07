@@ -65,7 +65,7 @@ const FriendOrderCard = (props) => {
                             </View>
                         </View>
                         <View style={styles.itemNameContainer}>
-                            <Text style={styles.cartItemText}>{item.product.name.length <  45 ? item.product.name : item.product.name.substring(0, 45) + '...'}</Text>
+                            <Text style={styles.cartItemText}>{item.product.name.length <  43 ? item.product.name : item.product.name.substring(0, 43) + '...'}</Text>
                         </View>
                     </View>
                     );
