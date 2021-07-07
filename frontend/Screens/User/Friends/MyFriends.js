@@ -16,7 +16,7 @@ const MyFriends = (props) => {
                     style={styles.enterAddressField}
                 />
                 <View>
-                    <Text style={styles.requestHeader}>{props.requestsCount} Requests</Text>
+                    <Text style={styles.requestHeader}>{props.requestsCount} {props.requestsCount === 1 ? 'Request' : 'Requests'}</Text>
                         {
                             requests.length > 0 ?
                             <View>
@@ -38,7 +38,7 @@ const MyFriends = (props) => {
                                 </View>
                             </View>
                         }
-                    <Text style={styles.friendHeader}>{props.friendsCount} Friends</Text>
+                    <Text style={styles.friendHeader}>{props.friendsCount} {props.friendsCount === 1 ? 'Friend' : 'Friends'}</Text>
                         {
                             friends.length > 0 ?
                             <View>
