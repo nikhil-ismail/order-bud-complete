@@ -27,9 +27,8 @@ const OrderCard = (props) => {
                 <View style={{ width: "70%", flexDirection: "row", justifyContent: "space-between" }}>
                     <View style={styles.contentContainer}>
                         <Text style={styles.header}>{order.business.name.length < 15 ? order.business.name : order.business.name.substring(0, 14) + '...'}</Text>
-                        <View style={{ flexDirection: "row", width: "70%" }}>
-                            <Text style={styles.subText}>${order.totalPrice}</Text>
-                            <Text style={styles.subText}>{order.totalQuantity} {order.totalQuantity === 1 ? 'Item' : 'Items'}</Text>
+                        <View style={{ flexDirection: "row", width: "100%" }}>
+                            <Text style={styles.subText}>${order.totalPrice} • {order.totalQuantity} {order.totalQuantity === 1 ? 'Item' : 'Items'}</Text>
                         </View>
                         <Text style={styles.subText}>{formattedDate}</Text>
                     </View>
@@ -76,7 +75,8 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     viewMenuContainer: {
-        justifyContent: "center"
+        justifyContent: "center",
+        marginTop: 30
     },
     viewMenu: {
         backgroundColor: "#E8E8E8",
