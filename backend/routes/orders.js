@@ -61,6 +61,16 @@ router.get(`/:friendId`, async (req, res) => {
     res.send(orderList);
 })
 
+router.get(`/friendOrders`, async (req, res) => {
+    const orderList = await Order.find({ "user": mongoose.Types.ObjectId(req.params.friendId) })
+        
+    if (!orderList) {
+        res.status(500).json({ success: false })
+    }
+
+    res.send(orderList);
+})
+
 router.get('/business/:businessId', async (req, res) => {
     const orders = await Order.find({ "business": mongoose.Types.ObjectId(req.params.businessId) })
         .populate({

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   innerContainer: {
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderBottomWidth: 0.4,
     borderBottomColor: "grey",
     flexDirection: "column",

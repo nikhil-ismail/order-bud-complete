@@ -10,12 +10,14 @@ import { useFocusEffect } from '@react-navigation/native'
 import axios from 'axios';
 
 import baseURL from "../../assets/common/baseUrl";
+import FriendOrderCard from "./FriendOrderCard";
 
 var { height } = Dimensions.get("window");
 
 const Orders = (props) => {
   const [loading, setLoading] = useState(true);
-  const [myOrdersToggle, setMyOrdersToggle] = useState(true);
+  const [friendOrders, setFriendOrders] = useState([]);
+  const [myOrders, setMyOrders] = useState(false);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [businesses, setBusinesses] = useState([]);
@@ -25,13 +27,13 @@ const Orders = (props) => {
   const userId = isLoggedIn && useSelector(selectUserId);
 
   const handleMyOrdersToggle = () => {
-    setMyOrdersToggle(!myOrdersToggle);
+    setMyOrders(!myOrders);
   }
 
   useFocusEffect(
     useCallback(() => {
 
-      // Orders
+      //User Orders
       axios.get(`${baseURL}orders/${userId}`)
         .then((res) => {
           setPendingOrders(res.data.filter(order => order.status === "Pending"));
@@ -43,6 +45,18 @@ const Orders = (props) => {
           console.log('Api call error - getting orders')
         })
 
+      //Friend Orders
+      /*axios.get(`${baseURL}orders/friendOrders`)
+      .then((res) => {
+        console.log(res.data);
+        setFriendOrders(res.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log('Api call error - getting friend orders')
+      })*/
+
+      //Businesses
       axios.get(`${baseURL}businesses`)
         .then((res) => {
           setBusinesses(res.data);
@@ -50,7 +64,7 @@ const Orders = (props) => {
           setLoading(false)
         })
         .catch((error) => {
-          console.log('Api call error - businesses')
+          console.log('Api call error - getting businesses')
         })
 
       return () => {
@@ -64,13 +78,18 @@ const Orders = (props) => {
 
   return (
     <>
-      {
-        loading === false ?
-          <View style={{ backgroundColor: "white", height: height, flex: 1 }}>
-            <SafeAreaView>
-              <ScrollView>
-                <View style={styles.headerContainer}>
-                  <Text style={styles.header}>My Orders</Text>
+      <View style={{ backgroundColor: "white", height: height, flex: 1 }}>
+        <SafeAreaView>
+          <ScrollView>
+            { myOrders ?
+              <View>
+                <View style={styles.ordersToggle}>
+                  <TouchableOpacity onPress={handleMyOrdersToggle} style={styles.friendsOrderUnSelected}>
+                      <Text style={styles.ordersToggleUnSelected}>Friend Orders</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.myOrdersSelected}>
+                      <Text style={styles.ordersToggleSelected}>My Orders</Text>
+                  </TouchableOpacity>
                 </View>
                 {
                   pendingOrders.length === 0 && completedOrders.length === 0 &&
@@ -80,7 +99,7 @@ const Orders = (props) => {
                 }
                 {
                   pendingOrders.length > 0 &&
-                  <View style={{ backgroundColor: "white", marginTop: 10 }}>
+                  <View style={{ backgroundColor: "white", marginTop: 5}}>
                     <Text style={{ fontSize: 24, fontWeight: "bold", marginLeft: 17, marginBottom: 10 }}>Current</Text>
                     {pendingOrders.map(order => {
                       return <OrderCard
@@ -89,8 +108,7 @@ const Orders = (props) => {
                         order={order}
                         ordersCount={ordersCount}
                       />
-                    })
-                    }
+                    })}
                   </View>
                 }
                 {
@@ -104,17 +122,26 @@ const Orders = (props) => {
                         order={order}
                         ordersCount={ordersCount}
                       />
-                    })
-                    }
+                    })}
                   </View>
                 }
-              </ScrollView>
-            </SafeAreaView>
-          </View> :
-          <View style={{ backgroundColor: "#f2f2f2", justifyContent: "center", alignItems: "center" }}>
-            <ActivityIndicator size="large" color="green" />
-          </View>
-      }
+              </View>
+              :
+              <View>
+                <View style={styles.ordersToggle}>
+                  <TouchableOpacity style={styles.friendsOrderSelected}>
+                      <Text style={styles.ordersToggleSelected}>Friend Orders</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleMyOrdersToggle} style={styles.myOrdersUnSelected}>
+                      <Text style={styles.ordersToggleUnSelected}>My Orders</Text>
+                  </TouchableOpacity>
+                </View>
+                <FriendOrderCard />
+              </View>
+            }
+          </ScrollView>
+        </SafeAreaView>
+      </View>
     </>
   )
 };
@@ -134,6 +161,54 @@ const styles = StyleSheet.create({
   header: {
     fontWeight: "bold",
     fontSize: 32
+  },
+  ordersToggle: {
+    flexDirection: "row",
+    marginTop: 15,
+    marginBottom: 25,
+    justifyContent: "center"
+  },
+  myOrdersSelected: {
+    backgroundColor: "rgba(0, 128, 0, 0.75)",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderWidth: 1,
+    borderColor: "green"
+  },
+  myOrdersUnSelected: {
+    backgroundColor: "white",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderWidth: 1,
+    borderColor: "green"
+  },
+  friendsOrderSelected: {
+    backgroundColor: "rgba(0, 128, 0, 0.75)",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderWidth: 1,
+    borderColor: "green"
+  },
+  friendsOrderUnSelected: {
+    backgroundColor: "white",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderWidth: 1,
+    borderColor: "green"
+  },
+  ordersToggleSelected: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+    marginHorizontal: 15,
+    marginVertical: 25
+  },
+  ordersToggleUnSelected: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "green",
+    marginHorizontal: 15,
+    marginVertical: 25
   }
 });
 
