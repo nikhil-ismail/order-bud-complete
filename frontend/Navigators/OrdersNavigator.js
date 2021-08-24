@@ -6,6 +6,7 @@ import BusinessPage from "../Screens/Businesses/Business/BusinessPage";
 import Receipt from '../Screens/Orders/Receipt';
 import RateOrder from '../Screens/Orders/RateOrder';
 import AlreadyRated from '../Screens/Orders/AlreadyRated';
+import FriendsOrdersFriendFeed from '../Screens/Orders/FriendsOrdersFriendFeed';
 
 const Stack = createStackNavigator()
 
@@ -45,6 +46,13 @@ function MyStack() {
                 component={AlreadyRated}
                 options={{
                     headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="Friends Orders To Friend Feed"
+                component={FriendsOrdersFriendFeed}
+                options={{
+                    headerShown: false
                 }}
             />
         </Stack.Navigator>

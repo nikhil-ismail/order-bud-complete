@@ -12,8 +12,6 @@ const MyFriendCard = (props) => {
     const userId = useSelector(selectUserId);
     const friend = props.friend;
 
-    console.log(friend);
-
     const handleAcceptFriendRequest = async () => {
         try {
             const acceptRequest = await axios.put(`${baseUrl}friends/acceptFriendRequest`, { friendId: props.friend});    
@@ -40,7 +38,7 @@ const MyFriendCard = (props) => {
                     </TouchableOpacity>
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={styles.cardContainer} onPress={() => props.navigation.navigate('Friend Feed', friend)}>
+                <TouchableOpacity style={styles.cardContainer} onPress={() => props.navigation.navigate('Friends List To Friend Feed', friend)}>
                     <View style={styles.nameContainer}>
                         <Text style={styles.userMain}>
                             {

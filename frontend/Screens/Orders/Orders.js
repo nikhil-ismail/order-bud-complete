@@ -22,6 +22,8 @@ const Orders = (props) => {
   const [completedOrders, setCompletedOrders] = useState([]);
   const [businesses, setBusinesses] = useState([]);
   const [ordersCount, setOrdersCount] = useState(0);
+  const [friendOrdersCount, setFriendOrdersCount] = useState(0);
+
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const userId = isLoggedIn && useSelector(selectUserId);
@@ -46,15 +48,16 @@ const Orders = (props) => {
         })
 
       //Friend Orders
-      /*axios.get(`${baseURL}orders/friendOrders`)
+      axios.get(`${baseURL}orders/friendOrders/${userId}`)
       .then((res) => {
-        console.log(res.data);
         setFriendOrders(res.data);
+        console.log(friendOrders);
+        setFriendOrdersCount(friendOrders.length);
         setLoading(false);
       })
       .catch((error) => {
         console.log('Api call error - getting friend orders')
-      })*/
+      })
 
       //Businesses
       axios.get(`${baseURL}businesses`)
@@ -128,15 +131,35 @@ const Orders = (props) => {
               </View>
               :
               <View>
-                <View style={styles.ordersToggle}>
-                  <TouchableOpacity style={styles.friendsOrderSelected}>
-                      <Text style={styles.ordersToggleSelected}>Friend Orders</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={handleMyOrdersToggle} style={styles.myOrdersUnSelected}>
-                      <Text style={styles.ordersToggleUnSelected}>My Orders</Text>
-                  </TouchableOpacity>
-                </View>
-                <FriendOrderCard />
+                {
+                  friendOrders.length === 0
+                  ?
+                  <View style={{alignItems: "center", justifyContent: "center", marginTop: 20}}>
+                    <Text style={{color: "grey", fontSize: 20}}>Your friends have not placed any orders yet.</Text>
+                  </View>
+                  :
+                  <View>
+                    <View style={styles.ordersToggle}>
+                      <TouchableOpacity style={styles.friendsOrderSelected}>
+                          <Text style={styles.ordersToggleSelected}>Friend Orders</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={handleMyOrdersToggle} style={styles.myOrdersUnSelected}>
+                          <Text style={styles.ordersToggleUnSelected}>My Orders</Text>
+                      </TouchableOpacity>
+                    </View>
+                    {
+                      friendOrders.map(friendOrder => {
+                        return <FriendOrderCard
+                        key={friendOrder._id}
+                        navigation={props.navigation}
+                        businesses={businesses}
+                        order={friendOrder}
+                        ordersCount={friendOrdersCount}
+                      />
+                      })
+                    }
+                  </View>
+                }
               </View>
             }
           </ScrollView>
@@ -164,35 +187,36 @@ const styles = StyleSheet.create({
   },
   ordersToggle: {
     flexDirection: "row",
-    marginTop: 15,
-    marginBottom: 25,
+    marginTop: 20,
+    marginBottom: 20,
+    height: 40,
     justifyContent: "center"
   },
   myOrdersSelected: {
     backgroundColor: "rgba(0, 128, 0, 0.75)",
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
     borderWidth: 1,
     borderColor: "green"
   },
   myOrdersUnSelected: {
     backgroundColor: "white",
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
     borderWidth: 1,
     borderColor: "green"
   },
   friendsOrderSelected: {
     backgroundColor: "rgba(0, 128, 0, 0.75)",
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
     borderWidth: 1,
     borderColor: "green"
   },
   friendsOrderUnSelected: {
     backgroundColor: "white",
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
     borderWidth: 1,
     borderColor: "green"
   },
@@ -201,14 +225,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
     marginHorizontal: 15,
-    marginVertical: 25
+    marginVertical: 8
   },
   ordersToggleUnSelected: {
     fontSize: 17,
     fontWeight: "bold",
     color: "green",
     marginHorizontal: 15,
-    marginVertical: 25
+    marginVertical: 8
   }
 });
 

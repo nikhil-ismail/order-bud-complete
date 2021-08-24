@@ -13,7 +13,7 @@ import { selectUserId } from '../../../Redux/userSlice';
 
 import baseURL from '../../../assets/common/baseUrl';
 
-const FriendFeed = (props) => {
+const FriendsListFriendFeed = (props) => {
 
     const [orders, setOrders] = useState([]);
     const [businesses, setBusinesses] = useState([]);
@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default FriendFeed;
+export default FriendsListFriendFeed;

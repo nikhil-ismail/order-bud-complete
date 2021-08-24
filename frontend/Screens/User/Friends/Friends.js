@@ -26,7 +26,6 @@ const Friends = (props) => {
         useCallback(() =>{
             axios.get(`${baseUrl}friends/${userId}`)
                 .then(res => {
-                    console.log(res.data);
                     setRequestsToAccept(res.data.requestsToAccept);
                     setSentRequests(res.data.sentRequests);
                     setFriends(res.data.friends);
