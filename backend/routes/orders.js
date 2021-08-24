@@ -1,6 +1,7 @@
 const { Order } = require('../models/order');
 const { OrderItem } = require('../models/order-item');
 const { Product } = require('../models/product');
+const { Friend } = require('../models/friend');
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
@@ -23,7 +24,6 @@ router.get(`/:userId`, async (req, res) => {
             name: 1,
             ratings: 1,
             reviewCount: 1
-
         })
 
     if (!orderList) {
@@ -61,14 +61,73 @@ router.get(`/:friendId`, async (req, res) => {
     res.send(orderList);
 })
 
-router.get(`/friendOrders`, async (req, res) => {
-    const orderList = await Order.find({ "user": mongoose.Types.ObjectId(req.params.friendId) })
-        
-    if (!orderList) {
-        res.status(500).json({ success: false })
-    }
+router.get(`/friendOrders/:userId`, async (req, res) => {
+    Friend.aggregate([
+        {
+            $match: {
+                $and: [
+                    {
+                        $or: [
+                            {
+                                "requester": mongoose.Types.ObjectId(req.params.userId)
+                            },
+                            {
+                                "recipient": mongoose.Types.ObjectId(req.params.userId)
+                            }
+                        ]
+                    },
+                    {
+                        "status": "friends"
+                    }
+                ]
+            },
+        },
+        {
+            $project: {
+                _id: 0,
+                friendId: {
+                    $cond: {
+                        if: { "$eq": ["$requester", mongoose.Types.ObjectId(req.params.userId)]},
+                        then: "$recipient",
+                        else: "$requester"
+                    }
+                }
+            }
+        }
+    ])
+    .exec(async (err, friends) => {
+        if (err) {
+            return res.status(500).send({ msg: "Unable to find user's friends" });
+        }
 
-    res.send(orderList);
+        friendList = []
+        friends.forEach(friend => {
+            friendList.push(friend.friendId)
+        })
+
+        const orders = await Order.find({'user': { $in: friendList } })
+        .populate({
+            path: 'orderItems',
+            populate: {
+                path: 'product',
+                select: {
+                    'name': 1,
+                    'price': 1
+                }
+            }
+        })
+        .populate('user', 'name')
+        .populate('business', {
+            coverImage: 1,
+            name: 1,
+            ratings: 1,
+            reviewCount: 1
+        })
+        .sort({date: -1})
+
+
+        return res.status(200).send(orders)
+    })
 })
 
 router.get('/business/:businessId', async (req, res) => {
@@ -89,7 +148,7 @@ router.get('/business/:businessId', async (req, res) => {
             'email': 1,
             'phone': 1
         })
-        .sort('-dateCreated')
+        .sort({ _id: 1 })
 
     if (!orders) {
         return res.status(400).send('the order cannot be created!')

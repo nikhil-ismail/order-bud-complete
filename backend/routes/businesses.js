@@ -39,7 +39,7 @@ router.get(`/`, async (req, res) => {
         res.status(500).json({ success: false })
     }
 
-    console.log(businessList);
+    // console.log(businessList);
     
     res.status(200).send(businessList);
 })
@@ -75,7 +75,7 @@ router.put('/rating/:id', async (req, res) => {
     userRating = req.body.userRating;
 
     businessRatings.push(userRating)
-    console.log(businessRatings);
+    // console.log(businessRatings);
 
     let total = 0;
     for (let i = 0; i < businessRatings.length; i++) {

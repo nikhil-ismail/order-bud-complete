@@ -9,17 +9,17 @@ const FriendOrderCard = (props) => {
 
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-  /*const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf("T"));
+  const date = order.dateOrdered.toString().substring(0, order.dateOrdered.toString().indexOf("T"));
   let dateParts = date.split("-");
   dateParts = dateParts.map((datePart) => {
       return parseInt(datePart - 1);
   });
   const formattedDate = `${monthNames[dateParts[1]]} ${dateParts[2]}, ${dateParts[0]}`;
 
-  const menu = businesses.filter(
-      (dispense) => dispense.name === order.business.name
-  );
-*/
+  const menu = businesses.filter(dispense => dispense.name === order.business.name);
+
+  const friend = order.user;
+
   const handleShowItems = () => {
     setShowItems(!showItems);
   };
@@ -30,19 +30,20 @@ const FriendOrderCard = (props) => {
             <View style={{flexDirection: "row"}}>
                 <Image
                     style={styles.coverImage}
+                    source={{ uri: order.business.coverImage }}
                 />
                 <View style={styles.contentContainer}>
                     <View style={[{flexDirection: "row"}, styles.viewMenuContainer]}>
                         <Text style={{ color: "black"}}>Order From</Text>
-                        <TouchableOpacity /*onPress={() => props.navigation.navigate("Business Page", menu[0])}*/>
-                          <Text style={{ color: "green", fontWeight: "bold", marginLeft: 4}}>Greg Hutner</Text>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('Friends Orders To Friend Feed', friend)}>
+                          <Text style={{ color: "green", fontWeight: "bold", marginLeft: 4}}>{order.user.name}</Text>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.header}>Control The T Sports</Text>
+                    <Text style={styles.header}>{order.business.name}</Text>
                     <View style={{flexDirection: "row"}}>
-                        <Text style={styles.subText}>March 20, 2021</Text>
+                      <Text style={styles.subText}>{formattedDate} • {order.totalQuantity} {order.totalQuantity === 1 ? 'Item' : 'Items'}</Text>
                     </View>
-                    <TouchableOpacity style={styles.viewMenuContainer} /*onPress={() => props.navigation.navigate("Business Page", menu[0])}*/>
+                    <TouchableOpacity style={styles.viewMenuContainer} onPress={() => props.navigation.navigate("Business Page", menu[0])}>
                         <Text style={{ color: "green", fontWeight: "bold" }}>View Menu</Text>
                     </TouchableOpacity>
                     <View style={styles.showItemToggleContainer}>
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   coverImage: {
-    height: width * 0.3,
+    height: width * 0.37,
     width: "30%",
     marginBottom: 15,
     backgroundColor: "grey"
