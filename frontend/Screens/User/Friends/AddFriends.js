@@ -150,18 +150,12 @@ const AddFriends = (props) => {
                 {
                     noInteraction.map(result => {
                         return (
-                            <View
-                                key={result.user._id}
-                                style={styles.resultContainer}
-                            >
+                            <View key={result.user._id} style={styles.resultContainer}>
                                 <View style={styles.userDetails}>
                                     <Text style={styles.userMain}>{result.user.name}</Text>
                                     <Text style={styles.userSecondary}>{result.user.email}</Text>
                                 </View>
-                                <TouchableOpacity
-                                    style={styles.addFriendButton}
-                                    onPress={() => addFriend(result)}
-                                >
+                                <TouchableOpacity style={styles.addFriendButton} onPress={() => addFriend(result)}>
                                     <Text style={styles.addFriendButtonText}>Add Friend</Text>
                                 </TouchableOpacity>
                             </View>
@@ -239,21 +233,22 @@ const styles = StyleSheet.create({
     },
     addFriendButton: {
         backgroundColor: "green",
-        width: 100,
-        height: 50,
+        width: 110,
+        height: 40,
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center"
     },
     addFriendButtonText: {
-        color: "white"
+        color: "white",
+        fontWeight: "bold"
     },
     alreadyFriendsButton: {
         backgroundColor: "white",
         borderColor: "green",
         borderWidth: 2,
-        width: 100,
-        height: 50,
+        width: 110,
+        height: 40,
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center"
@@ -264,8 +259,8 @@ const styles = StyleSheet.create({
     },
     pendingFriendButton: {
         backgroundColor: "#52ab62",
-        width: 100,
-        height: 50,
+        width: 110,
+        height: 40,
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center"
