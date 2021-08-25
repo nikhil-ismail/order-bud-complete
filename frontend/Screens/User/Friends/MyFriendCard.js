@@ -59,11 +59,9 @@ const MyFriendCard = (props) => {
                             }
                         </Text>
                     </View>
-                    <View
-                        style={styles.addedContainer}
-                    >
+                    <TouchableOpacity style={styles.addedContainer}>
                         <Text style={styles.addedText}>Friends</Text>
-                    </View>
+                    </TouchableOpacity>
                 </TouchableOpacity>
             }
         </SafeAreaView>
@@ -72,10 +70,14 @@ const MyFriendCard = (props) => {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        flexDirection: "row",
         backgroundColor: "white",
         paddingVertical: 20,
-        marginVertical: 2
+        paddingHorizontal: 5,
+        borderBottomWidth: 0.25,
+        borderBottomColor: "grey",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
     },
     nameContainer: {
         marginHorizontal: 18,
@@ -91,16 +93,16 @@ const styles = StyleSheet.create({
         marginTop: 7.5
     },
     addedContainer: {
-        marginLeft: 100,
+        marginHorizontal: 10,
         borderRadius: 10,
         borderColor: "green",
         borderWidth: 2,
-        paddingHorizontal: 10,
-        justifyContent: "center"
+        paddingHorizontal: 27.5,
+        paddingVertical: 7.5
     },
     addedText: {
-        fontSize: 16,
-        color: "green"
+        color: "green",
+        fontWeight: "bold"
     }
 })
 

@@ -10,6 +10,10 @@ import Friends from '../Screens/User/Friends/Friends'
 import AddFriends from '../Screens/User/Friends/AddFriends';
 import FriendsListFriendFeed from "../Screens/User/Friends/FriendsListFriendFeed";
 import BusinessPage from "../Screens/Businesses/Business/BusinessPage";
+import FriendRequests from '../Screens/User/Friends/FriendRequests';
+import MyFriends from '../Screens/User/Friends/MyFriends';
+import SearchFriends from '../Screens/User/Friends/SearchFriends';
+import FriendsOrdersFriendFeed from '../Screens/Orders/FriendsOrdersFriendFeed';
 
 const Stack = createStackNavigator();
 
@@ -75,6 +79,34 @@ function MyStack() {
             <Stack.Screen 
                 name="Business Page"
                 component={BusinessPage}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen 
+                name="Friend Requests"
+                component={FriendRequests}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen 
+                name="My Friends"
+                component={MyFriends}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen 
+                name="Search Friends"
+                component={SearchFriends}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen 
+                name="Friends Orders To Friend Feed"
+                component={FriendsOrdersFriendFeed}
                 options={{
                     headerShown: false
                 }}

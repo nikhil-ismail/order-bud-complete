@@ -4,9 +4,9 @@ import { Icon } from 'react-native-elements';
 
 import MyFriendCard from './MyFriendCard';
 
-const MyFriends = (props) => {
+const FriendRequests = (props) => {
     
-    const {friends} = props.route.params;
+    const {requests} = props.route.params;
 
     return (
         <SafeAreaView>
@@ -15,39 +15,33 @@ const MyFriends = (props) => {
                     <TouchableOpacity style={styles.iconContainer} onPress={() => props.navigation.goBack()}>
                         <Icon name="arrow-left" type="font-awesome-5" color="black" size={26} />
                     </TouchableOpacity>
-                    <Text style={styles.title}>Your Friends</Text>
+                    <Text style={styles.title}>Requests</Text>
                     <TouchableOpacity style={styles.addIcon} onPress={() => props.navigation.navigate('Add Friends')}>
                         <Icon name="user-plus" type="font-awesome-5" color="green" size={25} />
                     </TouchableOpacity>
                 </View>
-                <TextInput
-                    onFocus={() => props.navigation.navigate('Search Friends')}
-                    placeholder="Search friends on OrderBud..."
-                    style={styles.enterAddressField}
-                />
                 <View>
-                        {
-                            friends.length > 0 ?
-                            <View>
-                                {
-                                    friends.map(friend => {
-                                        return (
-                                            <MyFriendCard
-                                                key={friend._id}
-                                                friend={friend}
-                                                navigation={props.navigation}
-                                            />
-                                        )
-                                    })
-                                }
+                    {
+                        requests.length > 0 ?
+                        <View>
+                            {
+                                requests.map(request => {
+                                    return (
+                                        <MyFriendCard
+                                            key={request._id}
+                                            friend={request}
+                                        />
+                                    )
+                                })
+                            }
+                        </View>
+                        :
+                        <View style={styles.cardContainer}>
+                            <View style={styles.nameContainer}>
+                                <Text style={styles.userSecondary}>You have no friend requests at the moment</Text>
                             </View>
-                            :
-                            <View style={styles.cardContainer}>
-                                <View style={styles.nameContainer}>
-                                    <Text style={styles.userSecondary}>Send a friend request now to explore other orders!</Text>
-                                </View>
-                            </View>
-                        }
+                        </View>
+                    }
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -60,11 +54,11 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 20
     },
     title: {
         fontSize: 26,
-        marginLeft: 135,
+        marginLeft: 150,
         fontWeight: "bold"
     },
     iconContainer: {
@@ -128,4 +122,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default MyFriends;
+export default FriendRequests;

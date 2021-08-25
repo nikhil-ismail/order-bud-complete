@@ -21,7 +21,7 @@ const FriendsOrdersFriendFeed = (props) => {
     const userId = useSelector(selectUserId);
     const friend = props.route.params;
     const friendName = friend.name;
-    const friendId = friend.id;
+    const friendId = friend._id;
 
     useFocusEffect(
         useCallback(() => {

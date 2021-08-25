@@ -29,7 +29,7 @@ const Profile = (props) => {
                 <Text style={styles.name}>{userDetails.name}</Text>
             </View>
             <View style={styles.categoryContainer}>
-                <TouchableOpacity style={styles.category} onPress={() => props.navigation.navigate('Personal Information')}>
+                <TouchableOpacity style={[styles.category, {paddingLeft: 25}]} onPress={() => props.navigation.navigate('Personal Information')}>
                     <Icon name="user" type="font-awesome-5" color="black" size={30} />
                     <Text style={styles.categoryText}>Personal Information</Text>
                 </TouchableOpacity>
@@ -38,7 +38,7 @@ const Profile = (props) => {
                     <Text style={styles.categoryText}>Addresses</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.category} onPress={() => props.navigation.navigate('Friends')} navigation={props.navigation}>
-                    <Icon name="users" type="font-awesome-5" color="black" size={30} />
+                    <Icon name="user-friends" type="font-awesome-5" color="black" size={30} />
                     <Text style={styles.categoryText}>Friends</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.category} onPress={handleLogoutUser}>

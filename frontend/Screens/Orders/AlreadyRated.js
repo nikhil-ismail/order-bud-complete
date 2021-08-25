@@ -19,7 +19,8 @@ const AlreadyRated = props => {
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.headerContainer}>
-                        <Text style={styles.headerText}>You already rated this order from {order.business.name}</Text>
+                        <Text style={styles.headerText}>You already rated this order from</Text>
+                        <Text style={styles.businessText}>{order.business.name}</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -30,19 +31,22 @@ const AlreadyRated = props => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "white",
-        paddingVertical: 335
+        height: height
     },
     headerContainer: {
         alignItems: "center",
-        marginBottom: 50
+        justifyContent: "center",
+        marginTop: 200
     },
     headerText: {
-        flexWrap: "wrap",
-        width: "85%",
-        marginLeft: 30,
-        fontSize: 30,
-        fontWeight: "bold",
+        fontSize: 24,
         alignItems: "center"
+    },
+    businessText: {
+        fontSize: 24,
+        alignItems: "center",
+        color: "green",
+        fontWeight: "bold"
     }
 })
 
