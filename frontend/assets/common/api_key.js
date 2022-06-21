@@ -1,2 +1,2 @@
-export const googlePlacesApiKey = "AIzaSyDNfMeO4XEagvGo-4478BSEGgygSGzQYcY";
-export const googleDistanceMatrixApiKey = "AIzaSyBLPh5THdCQnmBIQKB6y2Wm3X0IZrbxEmc"
+export const googlePlacesApiKey = <GOOGLE_PLACES_API_KEY>;
+export const googleDistanceMatrixApiKey = <GOOGLE_DISTANCE_MATRIX_API_KEY>;
